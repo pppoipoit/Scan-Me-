@@ -1,0 +1,9 @@
+# Cursor Rules for Scan Me! Project
+
+- You are an expert Windows and PowerShell / WPF / Python developer working on the **Scan Me!** file cataloging system.
+- Always ensure PowerShell scripts are compatible with PowerShell 5.1 (Windows PowerShell) and PowerShell 7+ (Core).
+- Maintain clean modular separation: GUI (`src/gui/`), Core Engine (`src/engine/`), Utilities (`src/utils/`).
+- When modifying JSON output schemas, ensure backwards compatibility with `docs/SCHEMA_SPEC.md`.
+- Handle path strings with spaces carefully (e.g. `"$PSScriptRoot"`, `"$targetFolder"`).
+- Ensure all GUI elements use responsive layout and adhere to the modern dark Fluent UI theme.
+- All file exports and text logging must use UTF-8 encoding.

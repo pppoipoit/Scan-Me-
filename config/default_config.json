@@ -1,0 +1,20 @@
+{
+    "app_name": "Scan Me!",
+    "version": "1.0.0",
+    "theme": "DarkFluent",
+    "default_target_folder": "E:\\Project\\Scan Me!",
+    "default_output_file": "E:\\Project\\Scan Me!\\output\\scan_result.json",
+    "scan_all_files": true,
+    "calculate_hash": false,
+    "hash_algorithm": "MD5",
+    "extract_metadata": false,
+    "include_hidden_files": false,
+    "presets": {
+        "All Files (*.*)": ["*.*"],
+        "Installers & Packages": ["*.exe", "*.msi", "*.zip", "*.msix", "*.rar", "*.7z", "*.iso", "*.tar", "*.gz"],
+        "Code & Dev": ["*.js", "*.ts", "*.py", "*.ps1", "*.json", "*.html", "*.css", "*.cpp", "*.c", "*.h", "*.cs", "*.dart", "*.yaml", "*.yml", "*.md"],
+        "Documents & Office": ["*.pdf", "*.docx", "*.doc", "*.xlsx", "*.xls", "*.pptx", "*.txt", "*.csv"],
+        "Media (Images & Video)": ["*.png", "*.jpg", "*.jpeg", "*.gif", "*.svg", "*.webp", "*.mp4", "*.mkv", "*.mov", "*.mp3", "*.wav"]
+    },
+    "custom_extensions": "*.exe, *.msi, *.zip, *.msix"
+}

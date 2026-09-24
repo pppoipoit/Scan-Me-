@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "PowerShell",
+            "request": "launch",
+            "name": "PowerShell: Run Scan Me! GUI",
+            "script": "${workspaceFolder}/src/gui/MainWindow.ps1",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "PowerShell",
+            "request": "launch",
+            "name": "PowerShell: Run CLI Scanner",
+            "script": "${workspaceFolder}/src/engine/Scanner.ps1",
+            "args": [
+                "-TargetFolder", "${workspaceFolder}",
+                "-OutputFile", "${workspaceFolder}/output/debug_scan.json",
+                "-IncludeAllFiles"
+            ],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

@@ -1,0 +1,1126 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan Me! - Root Tree: Scan Me!</title>
+  <style>
+    :root {
+      --bg: #0F172A;
+      --card-bg: #1E293B;
+      --border: #334155;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --cyan: #06B6D4;
+      --cyan-hover: #38BDF8;
+      --green: #10B981;
+      --purple: #8B5CF6;
+      --rose: #F43F5E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px;
+      user-select: text;
+    }
+    .header {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .title-group h1 {
+      font-size: 22px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #06B6D4, #3B82F6, #8B5CF6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .title-group p {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 4px;
+      word-break: break-all;
+    }
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      background: #0F172A;
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .stat-pill span { color: var(--cyan); }
+    .toolbar {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      max-width: 450px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      background: #0F172A;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 12px 8px 36px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+    button.btn {
+      background: #334155;
+      color: #FFF;
+      border: 1px solid #475569;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    button.btn:hover {
+      background: #475569;
+      border-color: var(--cyan);
+    }
+    button.btn-primary {
+      background: linear-gradient(135deg, #10B981, #059669);
+      border: none;
+    }
+    button.btn-primary:hover { opacity: 0.9; }
+    .tree-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: 78vh;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+    .tree-list {
+      list-style: none;
+      padding-left: 24px;
+      margin: 0;
+      white-space: nowrap;
+    }
+    .tree-container > .tree-list {
+      padding-left: 0;
+    }
+    .tree-item {
+      margin: 3px 0;
+      position: relative;
+    }
+    .node-row {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 6px;
+      transition: background 0.15s;
+      cursor: default;
+    }
+    .node-row:hover {
+      background: rgba(51, 65, 85, 0.6);
+    }
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: var(--cyan);
+      font-size: 11px;
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      margin-right: 4px;
+      user-select: none;
+      transition: transform 0.2s;
+    }
+    .toggle-btn.collapsed {
+      transform: rotate(-90deg);
+      color: var(--text-muted);
+    }
+    .spacer {
+      width: 24px;
+      display: inline-block;
+    }
+    .icon {
+      font-size: 15px;
+      margin-right: 8px;
+      user-select: none;
+    }
+    .item-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      margin-right: 12px;
+      user-select: text;
+    }
+    .folder-name {
+      color: #38BDF8;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .folder-name:hover {
+      text-decoration: underline;
+    }
+    .file-name {
+      color: #F8FAFC;
+    }
+    .badge {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-right: 8px;
+      font-weight: 600;
+      user-select: none;
+    }
+    .size-badge {
+      background: #0F172A;
+      color: #A78BFA;
+      border: 1px solid #334155;
+    }
+    .count-badge {
+      background: #0F172A;
+      color: #34D399;
+      border: 1px solid #334155;
+    }
+    .dup-badge {
+      background: rgba(244, 63, 94, 0.2);
+      color: #FB7185;
+      border: 1px solid #F43F5E;
+    }
+    .ver-badge {
+      background: rgba(6, 182, 212, 0.2);
+      color: #38BDF8;
+      border: 1px solid #06B6D4;
+    }
+    .copy-btn {
+      opacity: 0;
+      background: #334155;
+      color: #CBD5E1;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      font-size: 10.5px;
+      padding: 2px 8px;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: opacity 0.2s, background 0.2s;
+    }
+    .node-row:hover .copy-btn {
+      opacity: 1;
+    }
+    .copy-btn:hover {
+      background: var(--cyan);
+      color: #000;
+    }
+    .children-container.collapsed {
+      display: none;
+    }
+    .highlight {
+      background: rgba(245, 158, 11, 0.35);
+      color: #FDE68A;
+      border-radius: 2px;
+      padding: 0 2px;
+    }
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10B981;
+      color: #FFF;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.25s ease;
+      z-index: 1000;
+    }
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    #contextMenu {
+      position: fixed;
+      display: none;
+      min-width: 230px;
+      padding: 6px;
+      background: #0F172A;
+      border: 1px solid #475569;
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+      z-index: 2000;
+    }
+    #contextMenu.show {
+      display: block;
+    }
+    .context-menu-item {
+      display: block;
+      width: 100%;
+      padding: 8px 10px;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      text-align: left;
+      font: inherit;
+      font-size: 12.5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .context-menu-item:hover {
+      background: #334155;
+      color: var(--cyan-hover);
+    }
+    #contextMenu .divider {
+      height: 1px;
+      margin: 5px 4px;
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title-group">
+      <h1>&#128193; Scan Me! Root Tree</h1>
+      <p>Target: E:\Project\Scan Me!</p>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-pill">Total Files: <span>42</span></div>
+      <div class="stat-pill">Total Size: <span>717.72 KB</span></div>
+      <div class="stat-pill">Scanned: <span>2026-09-24 19:25:24</span></div>
+    </div>
+  </div>
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">&#128269;</span>
+      <input type="text" id="searchInput" placeholder="Search file or folder name in tree..." oninput="filterTree()">
+    </div>
+    <div class="btn-group">
+      <button class="btn" onclick="expandAll()" title="Expand all folders">&#9660; Expand All</button>
+      <button class="btn" onclick="collapseAll()" title="Collapse all folders">&#9654; Collapse All</button>
+      <button class="btn btn-primary" onclick="copyEntireTreeText()" title="Copy entire tree as text">&#128203; Copy Tree Text</button>
+    </div>
+  </div>
+  <div class="tree-container" id="treeContainer">
+<ul class='tree-list'>
+<li class='tree-item folder-item' data-name='.vscode' data-path='E:\Project\Scan Me!\.vscode'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>.vscode</span>
+    <span class='badge size-badge'>1.87 KB</span>
+    <span class='badge count-badge'>3 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.vscode")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='launch.json' data-path='E:\Project\Scan Me!\.vscode\launch.json'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>launch.json</span>
+    <span class='badge size-badge'>753 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.vscode\\launch.json")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='settings.json' data-path='E:\Project\Scan Me!\.vscode\settings.json'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>settings.json</span>
+    <span class='badge size-badge'>231 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.vscode\\settings.json")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='tasks.json' data-path='E:\Project\Scan Me!\.vscode\tasks.json'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>tasks.json</span>
+    <span class='badge size-badge'>932 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.vscode\\tasks.json")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='assets' data-path='E:\Project\Scan Me!\assets'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>assets</span>
+    <span class='badge size-badge'>48.78 KB</span>
+    <span class='badge count-badge'>1 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\assets")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='app.ico' data-path='E:\Project\Scan Me!\assets\app.ico'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#127912;</span>
+    <span class='item-name file-name'>app.ico</span>
+    <span class='badge size-badge'>48.78 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\assets\\app.ico")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='config' data-path='E:\Project\Scan Me!\config'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>config</span>
+    <span class='badge size-badge'>994 Bytes</span>
+    <span class='badge count-badge'>1 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\config")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='default_config.json' data-path='E:\Project\Scan Me!\config\default_config.json'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>default_config.json</span>
+    <span class='badge size-badge'>994 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\config\\default_config.json")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='docs' data-path='E:\Project\Scan Me!\docs'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>docs</span>
+    <span class='badge size-badge'>23.28 KB</span>
+    <span class='badge count-badge'>7 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='ARCHITECTURE.md' data-path='E:\Project\Scan Me!\docs\ARCHITECTURE.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>ARCHITECTURE.md</span>
+    <span class='badge size-badge'>3.21 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\ARCHITECTURE.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='CURRENT_TASK.md' data-path='E:\Project\Scan Me!\docs\CURRENT_TASK.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>CURRENT_TASK.md</span>
+    <span class='badge size-badge'>1.64 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\CURRENT_TASK.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='EXTENSIONS_GUIDE.md' data-path='E:\Project\Scan Me!\docs\EXTENSIONS_GUIDE.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>EXTENSIONS_GUIDE.md</span>
+    <span class='badge size-badge'>2.18 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\EXTENSIONS_GUIDE.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='HANDOFF.md' data-path='E:\Project\Scan Me!\docs\HANDOFF.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>HANDOFF.md</span>
+    <span class='badge size-badge'>3.93 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\HANDOFF.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='KNOWN_ISSUES.md' data-path='E:\Project\Scan Me!\docs\KNOWN_ISSUES.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>KNOWN_ISSUES.md</span>
+    <span class='badge size-badge'>2.64 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\KNOWN_ISSUES.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='SCHEMA_SPEC.md' data-path='E:\Project\Scan Me!\docs\SCHEMA_SPEC.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>SCHEMA_SPEC.md</span>
+    <span class='badge size-badge'>3.67 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\SCHEMA_SPEC.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='USER_GUIDE.md' data-path='E:\Project\Scan Me!\docs\USER_GUIDE.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>USER_GUIDE.md</span>
+    <span class='badge size-badge'>6.01 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\docs\\USER_GUIDE.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='src' data-path='E:\Project\Scan Me!\src'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>src</span>
+    <span class='badge size-badge'>107.17 KB</span>
+    <span class='badge count-badge'>3 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item folder-item' data-name='engine' data-path='E:\Project\Scan Me!\src\engine'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>engine</span>
+    <span class='badge size-badge'>8.51 KB</span>
+    <span class='badge count-badge'>1 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\engine")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='Scanner.ps1' data-path='E:\Project\Scan Me!\src\engine\Scanner.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>Scanner.ps1</span>
+    <span class='badge size-badge'>8.51 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\engine\\Scanner.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='gui' data-path='E:\Project\Scan Me!\src\gui'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>gui</span>
+    <span class='badge size-badge'>47.4 KB</span>
+    <span class='badge count-badge'>2 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\gui")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='MainWindow.ps1' data-path='E:\Project\Scan Me!\src\gui\MainWindow.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>MainWindow.ps1</span>
+    <span class='badge size-badge'>17.12 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\gui\\MainWindow.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='MainWindow.xaml' data-path='E:\Project\Scan Me!\src\gui\MainWindow.xaml'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128196;</span>
+    <span class='item-name file-name'>MainWindow.xaml</span>
+    <span class='badge size-badge'>30.28 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\gui\\MainWindow.xaml")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='utils' data-path='E:\Project\Scan Me!\src\utils'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>utils</span>
+    <span class='badge size-badge'>51.26 KB</span>
+    <span class='badge count-badge'>1 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\utils")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='Helpers.ps1' data-path='E:\Project\Scan Me!\src\utils\Helpers.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>Helpers.ps1</span>
+    <span class='badge size-badge'>51.26 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\src\\utils\\Helpers.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='tests' data-path='E:\Project\Scan Me!\tests'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>tests</span>
+    <span class='badge size-badge'>49.56 KB</span>
+    <span class='badge count-badge'>6 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='context_menu_test.ps1' data-path='E:\Project\Scan Me!\tests\context_menu_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>context_menu_test.ps1</span>
+    <span class='badge size-badge'>10.44 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\context_menu_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='copy_path_test.ps1' data-path='E:\Project\Scan Me!\tests\copy_path_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>copy_path_test.ps1</span>
+    <span class='badge size-badge'>6.4 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\copy_path_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='copy_tree_text_test.ps1' data-path='E:\Project\Scan Me!\tests\copy_tree_text_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>copy_tree_text_test.ps1</span>
+    <span class='badge size-badge'>11.49 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\copy_tree_text_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='html_dropdown_test.ps1' data-path='E:\Project\Scan Me!\tests\html_dropdown_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>html_dropdown_test.ps1</span>
+    <span class='badge size-badge'>4.97 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\html_dropdown_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='icon_test.ps1' data-path='E:\Project\Scan Me!\tests\icon_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>icon_test.ps1</span>
+    <span class='badge size-badge'>5.54 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\icon_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='ui_dropdown_test.ps1' data-path='E:\Project\Scan Me!\tests\ui_dropdown_test.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>ui_dropdown_test.ps1</span>
+    <span class='badge size-badge'>10.72 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tests\\ui_dropdown_test.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item folder-item' data-name='tools' data-path='E:\Project\Scan Me!\tools'>
+  <div class='node-row'>
+    <button class='toggle-btn' onclick='toggleNode(this)'>&#9660;</button>
+    <span class='icon'>&#128193;</span>
+    <span class='item-name folder-name' onclick='toggleRow(this)'>tools</span>
+    <span class='badge size-badge'>12.64 KB</span>
+    <span class='badge count-badge'>5 items</span>
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+  <div class='children-container'><ul class='tree-list'>
+<li class='tree-item file-item' data-name='diagnose_protocol.ps1' data-path='E:\Project\Scan Me!\tools\diagnose_protocol.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>diagnose_protocol.ps1</span>
+    <span class='badge size-badge'>4.11 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools\\diagnose_protocol.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='register_protocol.ps1' data-path='E:\Project\Scan Me!\tools\register_protocol.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>register_protocol.ps1</span>
+    <span class='badge size-badge'>1.55 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools\\register_protocol.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='ScanMeOpener.ps1' data-path='E:\Project\Scan Me!\tools\ScanMeOpener.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>ScanMeOpener.ps1</span>
+    <span class='badge size-badge'>5.17 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools\\ScanMeOpener.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='test_opener.ps1' data-path='E:\Project\Scan Me!\tools\test_opener.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>test_opener.ps1</span>
+    <span class='badge size-badge'>1.31 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools\\test_opener.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='unregister_protocol.ps1' data-path='E:\Project\Scan Me!\tools\unregister_protocol.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>unregister_protocol.ps1</span>
+    <span class='badge size-badge'>514 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\tools\\unregister_protocol.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+</div>
+</li>
+<li class='tree-item file-item' data-name='.clinerules' data-path='E:\Project\Scan Me!\.clinerules'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128196;</span>
+    <span class='item-name file-name'>.clinerules</span>
+    <span class='badge size-badge'>2.27 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.clinerules")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='.cursorrules' data-path='E:\Project\Scan Me!\.cursorrules'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128196;</span>
+    <span class='item-name file-name'>.cursorrules</span>
+    <span class='badge size-badge'>726 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\.cursorrules")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='ARCHITECTURE.md' data-path='E:\Project\Scan Me!\ARCHITECTURE.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>ARCHITECTURE.md</span>
+    <span class='badge size-badge'>4.91 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\ARCHITECTURE.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='build_exe.ps1' data-path='E:\Project\Scan Me!\build_exe.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>build_exe.ps1</span>
+    <span class='badge size-badge'>4.57 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\build_exe.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='build_icon.ps1' data-path='E:\Project\Scan Me!\build_icon.ps1'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128187;</span>
+    <span class='item-name file-name'>build_icon.ps1</span>
+    <span class='badge size-badge'>3.15 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\build_icon.ps1")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='CHANGELOG.md' data-path='E:\Project\Scan Me!\CHANGELOG.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>CHANGELOG.md</span>
+    <span class='badge size-badge'>1.35 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\CHANGELOG.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='Code Base.txt' data-path='E:\Project\Scan Me!\Code Base.txt'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>Code Base.txt</span>
+    <span class='badge size-badge'>1.32 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\Code Base.txt")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='icon.ico' data-path='E:\Project\Scan Me!\icon.ico'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#127912;</span>
+    <span class='item-name file-name'>icon.ico</span>
+    <span class='badge size-badge'>143.29 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\icon.ico")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='icon.png' data-path='E:\Project\Scan Me!\icon.png'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#127912;</span>
+    <span class='item-name file-name'>icon.png</span>
+    <span class='badge size-badge'>192.02 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\icon.png")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='README.md' data-path='E:\Project\Scan Me!\README.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>README.md</span>
+    <span class='badge size-badge'>10.83 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\README.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='ROADMAP.md' data-path='E:\Project\Scan Me!\ROADMAP.md'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128209;</span>
+    <span class='item-name file-name'>ROADMAP.md</span>
+    <span class='badge size-badge'>5.31 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\ROADMAP.md")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='run.bat' data-path='E:\Project\Scan Me!\run.bat'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#9889;</span>
+    <span class='item-name file-name'>run.bat</span>
+    <span class='badge size-badge'>294 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\run.bat")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='Scan Me!.code-workspace' data-path='E:\Project\Scan Me!\Scan Me!.code-workspace'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#128196;</span>
+    <span class='item-name file-name'>Scan Me!.code-workspace</span>
+    <span class='badge size-badge'>160 Bytes</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\Scan Me!.code-workspace")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='scan me!.ico' data-path='E:\Project\Scan Me!\scan me!.ico'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#127912;</span>
+    <span class='item-name file-name'>scan me!.ico</span>
+    <span class='badge size-badge'>48.78 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\scan me!.ico")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+<li class='tree-item file-item' data-name='ScanMe.exe' data-path='E:\Project\Scan Me!\ScanMe.exe'>
+  <div class='node-row'>
+    <span class='spacer'></span>
+    <span class='icon'>&#9889;</span>
+    <span class='item-name file-name'>ScanMe.exe</span>
+    <span class='badge size-badge'>54.5 KB</span>
+    
+    
+    <button class='copy-btn' onclick='copyPath(this, "E:\\Project\\Scan Me!\\ScanMe.exe")' title='Copy Full Path'>&#128203; Copy Path</button>
+  </div>
+</li>
+</ul>
+
+  </div>
+  <div id="toast">Path copied to clipboard!</div>
+  <div id="contextMenu" role="menu" aria-hidden="true">
+    <button class="context-menu-item" id="contextOpenItem" type="button"></button>
+    <button class="context-menu-item" id="contextCopyItem" type="button">&#128203; Copy Path</button>
+  </div>
+  <script>
+    const TREE_DATA = {"name":"Scan Me!","path":"E:\\Project\\Scan Me!","type":"directory","size":"717.72 KB","icon":"\u0026#128193;","count":22,"children":[{"name":".vscode","path":"E:\\Project\\Scan Me!\\.vscode","type":"directory","size":"1.87 KB","icon":"\u0026#128193;","count":3,"children":[{"name":"launch.json","path":"E:\\Project\\Scan Me!\\.vscode\\launch.json","type":"file","size":"753 Bytes","icon":"\u0026#128187;","version":null},{"name":"settings.json","path":"E:\\Project\\Scan Me!\\.vscode\\settings.json","type":"file","size":"231 Bytes","icon":"\u0026#128187;","version":null},{"name":"tasks.json","path":"E:\\Project\\Scan Me!\\.vscode\\tasks.json","type":"file","size":"932 Bytes","icon":"\u0026#128187;","version":null}]},{"name":"assets","path":"E:\\Project\\Scan Me!\\assets","type":"directory","size":"48.78 KB","icon":"\u0026#128193;","count":1,"children":[{"name":"app.ico","path":"E:\\Project\\Scan Me!\\assets\\app.ico","type":"file","size":"48.78 KB","icon":"\u0026#127912;","version":null}]},{"name":"config","path":"E:\\Project\\Scan Me!\\config","type":"directory","size":"994 Bytes","icon":"\u0026#128193;","count":1,"children":[{"name":"default_config.json","path":"E:\\Project\\Scan Me!\\config\\default_config.json","type":"file","size":"994 Bytes","icon":"\u0026#128187;","version":null}]},{"name":"docs","path":"E:\\Project\\Scan Me!\\docs","type":"directory","size":"23.28 KB","icon":"\u0026#128193;","count":7,"children":[{"name":"ARCHITECTURE.md","path":"E:\\Project\\Scan Me!\\docs\\ARCHITECTURE.md","type":"file","size":"3.21 KB","icon":"\u0026#128209;","version":null},{"name":"CURRENT_TASK.md","path":"E:\\Project\\Scan Me!\\docs\\CURRENT_TASK.md","type":"file","size":"1.64 KB","icon":"\u0026#128209;","version":null},{"name":"EXTENSIONS_GUIDE.md","path":"E:\\Project\\Scan Me!\\docs\\EXTENSIONS_GUIDE.md","type":"file","size":"2.18 KB","icon":"\u0026#128209;","version":null},{"name":"HANDOFF.md","path":"E:\\Project\\Scan Me!\\docs\\HANDOFF.md","type":"file","size":"3.93 KB","icon":"\u0026#128209;","version":null},{"name":"KNOWN_ISSUES.md","path":"E:\\Project\\Scan Me!\\docs\\KNOWN_ISSUES.md","type":"file","size":"2.64 KB","icon":"\u0026#128209;","version":null},{"name":"SCHEMA_SPEC.md","path":"E:\\Project\\Scan Me!\\docs\\SCHEMA_SPEC.md","type":"file","size":"3.67 KB","icon":"\u0026#128209;","version":null},{"name":"USER_GUIDE.md","path":"E:\\Project\\Scan Me!\\docs\\USER_GUIDE.md","type":"file","size":"6.01 KB","icon":"\u0026#128209;","version":null}]},{"name":"src","path":"E:\\Project\\Scan Me!\\src","type":"directory","size":"107.17 KB","icon":"\u0026#128193;","count":3,"children":[{"name":"engine","path":"E:\\Project\\Scan Me!\\src\\engine","type":"directory","size":"8.51 KB","icon":"\u0026#128193;","count":1,"children":[{"name":"Scanner.ps1","path":"E:\\Project\\Scan Me!\\src\\engine\\Scanner.ps1","type":"file","size":"8.51 KB","icon":"\u0026#128187;","version":null}]},{"name":"gui","path":"E:\\Project\\Scan Me!\\src\\gui","type":"directory","size":"47.4 KB","icon":"\u0026#128193;","count":2,"children":[{"name":"MainWindow.ps1","path":"E:\\Project\\Scan Me!\\src\\gui\\MainWindow.ps1","type":"file","size":"17.12 KB","icon":"\u0026#128187;","version":null},{"name":"MainWindow.xaml","path":"E:\\Project\\Scan Me!\\src\\gui\\MainWindow.xaml","type":"file","size":"30.28 KB","icon":"\u0026#128196;","version":null}]},{"name":"utils","path":"E:\\Project\\Scan Me!\\src\\utils","type":"directory","size":"51.26 KB","icon":"\u0026#128193;","count":1,"children":[{"name":"Helpers.ps1","path":"E:\\Project\\Scan Me!\\src\\utils\\Helpers.ps1","type":"file","size":"51.26 KB","icon":"\u0026#128187;","version":null}]}]},{"name":"tests","path":"E:\\Project\\Scan Me!\\tests","type":"directory","size":"49.56 KB","icon":"\u0026#128193;","count":6,"children":[{"name":"context_menu_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\context_menu_test.ps1","type":"file","size":"10.44 KB","icon":"\u0026#128187;","version":null},{"name":"copy_path_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\copy_path_test.ps1","type":"file","size":"6.4 KB","icon":"\u0026#128187;","version":null},{"name":"copy_tree_text_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\copy_tree_text_test.ps1","type":"file","size":"11.49 KB","icon":"\u0026#128187;","version":null},{"name":"html_dropdown_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\html_dropdown_test.ps1","type":"file","size":"4.97 KB","icon":"\u0026#128187;","version":null},{"name":"icon_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\icon_test.ps1","type":"file","size":"5.54 KB","icon":"\u0026#128187;","version":null},{"name":"ui_dropdown_test.ps1","path":"E:\\Project\\Scan Me!\\tests\\ui_dropdown_test.ps1","type":"file","size":"10.72 KB","icon":"\u0026#128187;","version":null}]},{"name":"tools","path":"E:\\Project\\Scan Me!\\tools","type":"directory","size":"12.64 KB","icon":"\u0026#128193;","count":5,"children":[{"name":"diagnose_protocol.ps1","path":"E:\\Project\\Scan Me!\\tools\\diagnose_protocol.ps1","type":"file","size":"4.11 KB","icon":"\u0026#128187;","version":null},{"name":"register_protocol.ps1","path":"E:\\Project\\Scan Me!\\tools\\register_protocol.ps1","type":"file","size":"1.55 KB","icon":"\u0026#128187;","version":null},{"name":"ScanMeOpener.ps1","path":"E:\\Project\\Scan Me!\\tools\\ScanMeOpener.ps1","type":"file","size":"5.17 KB","icon":"\u0026#128187;","version":null},{"name":"test_opener.ps1","path":"E:\\Project\\Scan Me!\\tools\\test_opener.ps1","type":"file","size":"1.31 KB","icon":"\u0026#128187;","version":null},{"name":"unregister_protocol.ps1","path":"E:\\Project\\Scan Me!\\tools\\unregister_protocol.ps1","type":"file","size":"514 Bytes","icon":"\u0026#128187;","version":null}]},{"name":".clinerules","path":"E:\\Project\\Scan Me!\\.clinerules","type":"file","size":"2.27 KB","icon":"\u0026#128196;","version":null},{"name":".cursorrules","path":"E:\\Project\\Scan Me!\\.cursorrules","type":"file","size":"726 Bytes","icon":"\u0026#128196;","version":null},{"name":"ARCHITECTURE.md","path":"E:\\Project\\Scan Me!\\ARCHITECTURE.md","type":"file","size":"4.91 KB","icon":"\u0026#128209;","version":null},{"name":"build_exe.ps1","path":"E:\\Project\\Scan Me!\\build_exe.ps1","type":"file","size":"4.57 KB","icon":"\u0026#128187;","version":null},{"name":"build_icon.ps1","path":"E:\\Project\\Scan Me!\\build_icon.ps1","type":"file","size":"3.15 KB","icon":"\u0026#128187;","version":null},{"name":"CHANGELOG.md","path":"E:\\Project\\Scan Me!\\CHANGELOG.md","type":"file","size":"1.35 KB","icon":"\u0026#128209;","version":null},{"name":"Code Base.txt","path":"E:\\Project\\Scan Me!\\Code Base.txt","type":"file","size":"1.32 KB","icon":"\u0026#128209;","version":null},{"name":"icon.ico","path":"E:\\Project\\Scan Me!\\icon.ico","type":"file","size":"143.29 KB","icon":"\u0026#127912;","version":null},{"name":"icon.png","path":"E:\\Project\\Scan Me!\\icon.png","type":"file","size":"192.02 KB","icon":"\u0026#127912;","version":null},{"name":"README.md","path":"E:\\Project\\Scan Me!\\README.md","type":"file","size":"10.83 KB","icon":"\u0026#128209;","version":null},{"name":"ROADMAP.md","path":"E:\\Project\\Scan Me!\\ROADMAP.md","type":"file","size":"5.31 KB","icon":"\u0026#128209;","version":null},{"name":"run.bat","path":"E:\\Project\\Scan Me!\\run.bat","type":"file","size":"294 Bytes","icon":"⚡","version":null},{"name":"Scan Me!.code-workspace","path":"E:\\Project\\Scan Me!\\Scan Me!.code-workspace","type":"file","size":"160 Bytes","icon":"\u0026#128196;","version":null},{"name":"scan me!.ico","path":"E:\\Project\\Scan Me!\\scan me!.ico","type":"file","size":"48.78 KB","icon":"\u0026#127912;","version":null},{"name":"ScanMe.exe","path":"E:\\Project\\Scan Me!\\ScanMe.exe","type":"file","size":"54.5 KB","icon":"⚡","version":null}]};
+    function toggleNode(btn) {
+      const parentLi = btn.closest(".folder-item");
+      const container = parentLi.querySelector(":scope > .children-container");
+      if (container) {
+        container.classList.toggle("collapsed");
+        btn.classList.toggle("collapsed");
+      }
+    }
+    function toggleRow(nameSpan) {
+      const parentLi = nameSpan.closest(".folder-item");
+      const btn = parentLi.querySelector(":scope > .node-row > .toggle-btn");
+      if (btn) toggleNode(btn);
+    }
+    function expandAll() {
+      document.querySelectorAll(".children-container").forEach(el => el.classList.remove("collapsed"));
+      document.querySelectorAll(".toggle-btn").forEach(el => el.classList.remove("collapsed"));
+    }
+    function collapseAll() {
+      document.querySelectorAll(".children-container").forEach(el => el.classList.add("collapsed"));
+      document.querySelectorAll(".toggle-btn").forEach(el => el.classList.add("collapsed"));
+    }
+    function copyPath(btn, path) {
+      const winPath = String(path || "").replace(/\//g, "\\");
+      navigator.clipboard.writeText(winPath).then(() => {
+        showToast("Copied: " + winPath);
+      });
+    }
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => { t.classList.remove("show"); }, 2200);
+    }
+    const OPEN_PROTOCOL_PREFIX = "scanme://open?path=";
+    function buildOpenProtocolUrl(path) {
+      const winPath = String(path || "").replace(/\//g, "\\");
+      return OPEN_PROTOCOL_PREFIX + encodeURIComponent(winPath);
+    }
+    let contextMenuTarget = null;
+    function closeContextMenu() {
+      const menu = document.getElementById("contextMenu");
+      if (menu) {
+        menu.classList.remove("show");
+        menu.setAttribute("aria-hidden", "true");
+      }
+      contextMenuTarget = null;
+    }
+    function openSelectedPath(path) {
+      if (!path) return;
+      closeContextMenu();
+      showToast("Opening… If nothing happens, the protocol is not registered yet. Run tools\\register_protocol.ps1 once (see README).");
+      window.location.href = buildOpenProtocolUrl(path);
+    }
+    function showContextMenu(event, row) {
+      closeContextMenu();
+      const target = row.closest(".tree-item");
+      if (!target) return;
+      const isFolder = target.classList.contains("folder-item");
+      const path = target.getAttribute("data-path") || "";
+      const menu = document.getElementById("contextMenu");
+      const openItem = document.getElementById("contextOpenItem");
+      if (!menu || !openItem) return;
+      contextMenuTarget = target;
+      openItem.textContent = isFolder ? "\u{1F4C2} Open Folder in Explorer" : "\u{1F4C4} Open File (default app)";
+      openItem.onclick = () => openSelectedPath(contextMenuTarget && contextMenuTarget.getAttribute("data-path"));
+      const copyItem = document.getElementById("contextCopyItem");
+      if (copyItem) copyItem.onclick = () => {
+        const selected = contextMenuTarget;
+        closeContextMenu();
+        copyPath(null, selected && selected.getAttribute("data-path"));
+      };
+      menu.style.left = event.clientX + "px";
+      menu.style.top = event.clientY + "px";
+      menu.classList.add("show");
+      menu.setAttribute("aria-hidden", "false");
+    }
+    function initContextMenu() {
+      if (typeof document === "undefined" || !document.addEventListener) return;
+      document.addEventListener("contextmenu", (event) => {
+        const row = event.target && event.target.closest ? event.target.closest(".node-row") : null;
+        if (row) {
+          event.preventDefault();
+          showContextMenu(event, row);
+        } else {
+          closeContextMenu();
+        }
+      });
+      document.addEventListener("click", () => closeContextMenu());
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeContextMenu();
+      });
+      document.addEventListener("scroll", closeContextMenu, true);
+      if (typeof window !== "undefined" && window.addEventListener) window.addEventListener("scroll", closeContextMenu, true);
+    }
+    initContextMenu();
+    function copyEntireTreeText() {
+      // Walk the embedded data model (TREE_DATA), NOT the DOM, so the copied text
+      // always contains the FULL tree (paths, sizes, counts) regardless of expand/collapse.
+      const winPath = p => String(p || "").replace(/\//g, "\\");
+      const formatNode = node => {
+        const icon = node.icon || (node.type === "directory" ? "\u{1F4C1}" : "\u{1F4C4}");
+        let details;
+        if (node.type === "directory") {
+          details = node.size + ", " + (node.count || 0) + " items";
+        } else if (node.version) {
+          details = node.size + ", v" + node.version;
+        } else {
+          details = node.size;
+        }
+        return icon + " " + winPath(node.path) + " (" + details + ")";
+      };
+      const lines = [formatNode(TREE_DATA)];
+      const renderChildren = (node, prefix) => {
+        const children = Array.isArray(node.children) ? node.children : [];
+        children.forEach((child, i) => {
+          const isLast = i === children.length - 1;
+          lines.push(prefix + (isLast ? "\u2514\u2500\u2500 " : "\u251C\u2500\u2500 ") + formatNode(child));
+          if (child.type === "directory") {
+            renderChildren(child, prefix + (isLast ? "    " : "\u2502   "));
+          }
+        });
+      };
+      renderChildren(TREE_DATA, "");
+      navigator.clipboard.writeText(lines.join("\n")).then(() => {
+        showToast("Copied!");
+      });
+    }
+    function filterTree() {
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      const items = document.querySelectorAll(".tree-item");
+      if (!q) {
+        items.forEach(item => {
+          item.style.display = "";
+          const nameSpan = item.querySelector(".item-name");
+          if (nameSpan) nameSpan.innerHTML = nameSpan.textContent;
+        });
+        return;
+      }
+      expandAll();
+      items.forEach(item => {
+        const name = item.getAttribute("data-name") || "";
+        const nameSpan = item.querySelector(".item-name");
+        if (name.toLowerCase().includes(q)) {
+          item.style.display = "";
+          const escQ = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const reg = new RegExp("(" + escQ + ")", "gi");
+          nameSpan.innerHTML = name.replace(reg, `<span class="highlight">$1</span>`);
+          let p = item.parentElement.closest(".tree-item");
+          while (p) {
+            p.style.display = "";
+            p = p.parentElement.closest(".tree-item");
+          }
+        } else {
+          const hasMatchingChild = item.querySelector(`.tree-item[data-name*="${q}"]`);
+          if (!hasMatchingChild) {
+            item.style.display = "none";
+          } else {
+            item.style.display = "";
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

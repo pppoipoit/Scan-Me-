@@ -1,0 +1,21 @@
+# --- เริ่มต้นสคริปต์สแกนโฟลเดอร์ (อย่าแก้บรรทัดนี้) ---
+$targetFolder = "D:\MyLocalRepo"  # <--- นายแก้ตรงนี้ เป็นที่อยู่โฟลเดอร์หลักของนาย (เช่น C:\1MoreClick_Repo)
+$outputFile = "C:\SkillTree_Output.json" # <--- ไฟล์ผลลัพธ์จะถูกสร้างที่นี่
+
+$extensions = @("*.exe", "*.msi", "*.zip", "*.msix")
+$skillTree = @()
+
+Write-Host "กำลังสแกนโฟลเดอร์... กรุณารอสักครู่ (อย่าปิดหน้าต่างนี้)" -ForegroundColor Green
+
+Get-ChildItem -Path $targetFolder -Recurse -Include $extensions -ErrorAction SilentlyContinue | ForEach-Object {
+    $skillTree += @{
+        Category_Folder = $_.Directory.Name
+        File_Name       = $_.Name
+        Full_Path       = $_.FullName
+        Size_MB         = [math]::Round($_.Length / 1MB, 2)
+    }
+}
+
+$skillTree | ConvertTo-Json -Depth 5 | Out-File -FilePath $outputFile -Encoding UTF8
+Write-Host "สแกนเสร็จสิ้น! ตรวจสอบไฟล์ได้ที่: $outputFile" -ForegroundColor Cyan
+# --- สิ้นสุดสคริปต์ ---

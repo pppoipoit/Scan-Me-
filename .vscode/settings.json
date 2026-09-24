@@ -1,0 +1,8 @@
+{
+    "files.encoding": "utf8",
+    "files.autoGuessEncoding": true,
+    "powershell.integratedConsole.showOnStartup": false,
+    "powershell.scriptAnalysis.enable": true,
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
+}

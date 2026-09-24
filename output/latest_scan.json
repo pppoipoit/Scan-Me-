@@ -1,0 +1,697 @@
+﻿{
+    "Scan_Meta":  {
+                      "Target_Folder":  "E:\\Project\\Scan Me!",
+                      "Scan_Timestamp":  "2026-09-24 19:25:24",
+                      "Scan_Duration_Sec":  0.12,
+                      "Total_Files":  42,
+                      "Total_Size_Bytes":  734945,
+                      "Total_Size_MB":  0.7,
+                      "Total_Size_Human":  "717.72 KB",
+                      "Hash_Calculated":  false,
+                      "Duplicate_Files":  0,
+                      "Duplicate_Space_Wasted":  "0 Bytes",
+                      "Metadata_Extracted":  false
+                  },
+    "Category_Stats":  {
+                           "assets":  {
+                                          "Count":  1,
+                                          "TotalBytes":  49955
+                                      },
+                           "utils":  {
+                                         "Count":  1,
+                                         "TotalBytes":  52492
+                                     },
+                           "tools":  {
+                                         "Count":  5,
+                                         "TotalBytes":  12940
+                                     },
+                           "config":  {
+                                          "Count":  1,
+                                          "TotalBytes":  994
+                                      },
+                           ".vscode":  {
+                                           "Count":  3,
+                                           "TotalBytes":  1916
+                                       },
+                           "Scan Me!":  {
+                                            "Count":  15,
+                                            "TotalBytes":  484813
+                                        },
+                           "engine":  {
+                                          "Count":  1,
+                                          "TotalBytes":  8715
+                                      },
+                           "gui":  {
+                                       "Count":  2,
+                                       "TotalBytes":  48537
+                                   },
+                           "tests":  {
+                                         "Count":  6,
+                                         "TotalBytes":  50746
+                                     },
+                           "docs":  {
+                                        "Count":  7,
+                                        "TotalBytes":  23837
+                                    }
+                       },
+    "Extension_Stats":  {
+                            ".cursorrules":  {
+                                                 "Count":  1,
+                                                 "TotalBytes":  726
+                                             },
+                            ".json":  {
+                                          "Count":  4,
+                                          "TotalBytes":  2910
+                                      },
+                            ".ps1":  {
+                                         "Count":  16,
+                                         "TotalBytes":  150323
+                                     },
+                            ".code-workspace":  {
+                                                    "Count":  1,
+                                                    "TotalBytes":  160
+                                                },
+                            ".exe":  {
+                                         "Count":  1,
+                                         "TotalBytes":  55808
+                                     },
+                            ".xaml":  {
+                                          "Count":  1,
+                                          "TotalBytes":  31011
+                                      },
+                            ".bat":  {
+                                         "Count":  1,
+                                         "TotalBytes":  294
+                                     },
+                            ".ico":  {
+                                         "Count":  3,
+                                         "TotalBytes":  246634
+                                     },
+                            ".png":  {
+                                         "Count":  1,
+                                         "TotalBytes":  196626
+                                     },
+                            ".clinerules":  {
+                                                "Count":  1,
+                                                "TotalBytes":  2321
+                                            },
+                            ".md":  {
+                                        "Count":  11,
+                                        "TotalBytes":  46778
+                                    },
+                            ".txt":  {
+                                         "Count":  1,
+                                         "TotalBytes":  1354
+                                     }
+                        },
+    "Files":  [
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  ".clinerules",
+                      "File_Name":  ".clinerules",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\.clinerules",
+                      "Extension":  ".clinerules",
+                      "Size_Bytes":  2321,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "2.27 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:47:46"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  ".cursorrules",
+                      "File_Name":  ".cursorrules",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\.cursorrules",
+                      "Extension":  ".cursorrules",
+                      "Size_Bytes":  726,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "726 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:47:54"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "ARCHITECTURE.md",
+                      "File_Name":  "ARCHITECTURE.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\ARCHITECTURE.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  5031,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "4.91 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:50:40"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "build_exe.ps1",
+                      "File_Name":  "build_exe.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\build_exe.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  4676,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "4.57 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:13:29"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "build_icon.ps1",
+                      "File_Name":  "build_icon.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\build_icon.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  3228,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "3.15 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:13:31"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "CHANGELOG.md",
+                      "File_Name":  "CHANGELOG.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\CHANGELOG.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  1381,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "1.35 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:50:50"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "Code Base.txt",
+                      "File_Name":  "Code Base.txt",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\Code Base.txt",
+                      "Extension":  ".txt",
+                      "Size_Bytes":  1354,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "1.32 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:14:40"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "icon.ico",
+                      "File_Name":  "icon.ico",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\icon.ico",
+                      "Extension":  ".ico",
+                      "Size_Bytes":  146724,
+                      "Size_MB":  0.14,
+                      "Size_Formatted":  "143.29 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-17 15:22:02"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "icon.png",
+                      "File_Name":  "icon.png",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\icon.png",
+                      "Extension":  ".png",
+                      "Size_Bytes":  196626,
+                      "Size_MB":  0.19,
+                      "Size_Formatted":  "192.02 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-08 17:20:02"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "README.md",
+                      "File_Name":  "README.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\README.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  11093,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "10.83 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 18:28:13"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "ROADMAP.md",
+                      "File_Name":  "ROADMAP.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\ROADMAP.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  5436,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "5.31 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:50:46"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "run.bat",
+                      "File_Name":  "run.bat",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\run.bat",
+                      "Extension":  ".bat",
+                      "Size_Bytes":  294,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "294 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:50:26"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "Scan Me!.code-workspace",
+                      "File_Name":  "Scan Me!.code-workspace",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\Scan Me!.code-workspace",
+                      "Extension":  ".code-workspace",
+                      "Size_Bytes":  160,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "160 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-14 14:49:56"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "scan me!.ico",
+                      "File_Name":  "scan me!.ico",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\scan me!.ico",
+                      "Extension":  ".ico",
+                      "Size_Bytes":  49955,
+                      "Size_MB":  0.05,
+                      "Size_Formatted":  "48.78 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2024-03-15 01:16:44"
+                  },
+                  {
+                      "Category_Folder":  "Scan Me!",
+                      "Relative_Path":  "ScanMe.exe",
+                      "File_Name":  "ScanMe.exe",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\ScanMe.exe",
+                      "Extension":  ".exe",
+                      "Size_Bytes":  55808,
+                      "Size_MB":  0.05,
+                      "Size_Formatted":  "54.5 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:16:00"
+                  },
+                  {
+                      "Category_Folder":  ".vscode",
+                      "Relative_Path":  ".vscode\\launch.json",
+                      "File_Name":  "launch.json",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\.vscode\\launch.json",
+                      "Extension":  ".json",
+                      "Size_Bytes":  753,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "753 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:49:43"
+                  },
+                  {
+                      "Category_Folder":  ".vscode",
+                      "Relative_Path":  ".vscode\\settings.json",
+                      "File_Name":  "settings.json",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\.vscode\\settings.json",
+                      "Extension":  ".json",
+                      "Size_Bytes":  231,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "231 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:48:21"
+                  },
+                  {
+                      "Category_Folder":  ".vscode",
+                      "Relative_Path":  ".vscode\\tasks.json",
+                      "File_Name":  "tasks.json",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\.vscode\\tasks.json",
+                      "Extension":  ".json",
+                      "Size_Bytes":  932,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "932 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:49:17"
+                  },
+                  {
+                      "Category_Folder":  "assets",
+                      "Relative_Path":  "assets\\app.ico",
+                      "File_Name":  "app.ico",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\assets\\app.ico",
+                      "Extension":  ".ico",
+                      "Size_Bytes":  49955,
+                      "Size_MB":  0.05,
+                      "Size_Formatted":  "48.78 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2024-03-15 01:16:44"
+                  },
+                  {
+                      "Category_Folder":  "config",
+                      "Relative_Path":  "config\\default_config.json",
+                      "File_Name":  "default_config.json",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\config\\default_config.json",
+                      "Extension":  ".json",
+                      "Size_Bytes":  994,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "994 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-01 16:00:35"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\ARCHITECTURE.md",
+                      "File_Name":  "ARCHITECTURE.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\ARCHITECTURE.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  3286,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "3.21 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 19:07:36"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\CURRENT_TASK.md",
+                      "File_Name":  "CURRENT_TASK.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\CURRENT_TASK.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  1682,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "1.64 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-21 10:57:14"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\EXTENSIONS_GUIDE.md",
+                      "File_Name":  "EXTENSIONS_GUIDE.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\EXTENSIONS_GUIDE.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  2228,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "2.18 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:51:05"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\HANDOFF.md",
+                      "File_Name":  "HANDOFF.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\HANDOFF.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  4026,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "3.93 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-21 10:57:01"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\KNOWN_ISSUES.md",
+                      "File_Name":  "KNOWN_ISSUES.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\KNOWN_ISSUES.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  2702,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "2.64 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-21 10:57:33"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\SCHEMA_SPEC.md",
+                      "File_Name":  "SCHEMA_SPEC.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\SCHEMA_SPEC.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  3762,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "3.67 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:51:01"
+                  },
+                  {
+                      "Category_Folder":  "docs",
+                      "Relative_Path":  "docs\\USER_GUIDE.md",
+                      "File_Name":  "USER_GUIDE.md",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\docs\\USER_GUIDE.md",
+                      "Extension":  ".md",
+                      "Size_Bytes":  6151,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "6.01 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-08-24 14:50:55"
+                  },
+                  {
+                      "Category_Folder":  "engine",
+                      "Relative_Path":  "src\\engine\\Scanner.ps1",
+                      "File_Name":  "Scanner.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\src\\engine\\Scanner.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  8715,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "8.51 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 15:30:06"
+                  },
+                  {
+                      "Category_Folder":  "gui",
+                      "Relative_Path":  "src\\gui\\MainWindow.ps1",
+                      "File_Name":  "MainWindow.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\src\\gui\\MainWindow.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  17526,
+                      "Size_MB":  0.02,
+                      "Size_Formatted":  "17.12 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:17:39"
+                  },
+                  {
+                      "Category_Folder":  "gui",
+                      "Relative_Path":  "src\\gui\\MainWindow.xaml",
+                      "File_Name":  "MainWindow.xaml",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\src\\gui\\MainWindow.xaml",
+                      "Extension":  ".xaml",
+                      "Size_Bytes":  31011,
+                      "Size_MB":  0.03,
+                      "Size_Formatted":  "30.28 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:11:52"
+                  },
+                  {
+                      "Category_Folder":  "utils",
+                      "Relative_Path":  "src\\utils\\Helpers.ps1",
+                      "File_Name":  "Helpers.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\src\\utils\\Helpers.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  52492,
+                      "Size_MB":  0.05,
+                      "Size_Formatted":  "51.26 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 19:07:29"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\context_menu_test.ps1",
+                      "File_Name":  "context_menu_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\context_menu_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  10693,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "10.44 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 19:07:34"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\copy_path_test.ps1",
+                      "File_Name":  "copy_path_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\copy_path_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  6555,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "6.4 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-23 19:36:46"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\copy_tree_text_test.ps1",
+                      "File_Name":  "copy_tree_text_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\copy_tree_text_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  11764,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "11.49 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 15:23:51"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\html_dropdown_test.ps1",
+                      "File_Name":  "html_dropdown_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\html_dropdown_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  5088,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "4.97 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-23 19:17:51"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\icon_test.ps1",
+                      "File_Name":  "icon_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\icon_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  5668,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "5.54 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:13:35"
+                  },
+                  {
+                      "Category_Folder":  "tests",
+                      "Relative_Path":  "tests\\ui_dropdown_test.ps1",
+                      "File_Name":  "ui_dropdown_test.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tests\\ui_dropdown_test.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  10978,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "10.72 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-23 19:00:42"
+                  },
+                  {
+                      "Category_Folder":  "tools",
+                      "Relative_Path":  "tools\\diagnose_protocol.ps1",
+                      "File_Name":  "diagnose_protocol.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tools\\diagnose_protocol.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  4206,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "4.11 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 18:29:41"
+                  },
+                  {
+                      "Category_Folder":  "tools",
+                      "Relative_Path":  "tools\\register_protocol.ps1",
+                      "File_Name":  "register_protocol.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tools\\register_protocol.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  1586,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "1.55 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 18:25:55"
+                  },
+                  {
+                      "Category_Folder":  "tools",
+                      "Relative_Path":  "tools\\ScanMeOpener.ps1",
+                      "File_Name":  "ScanMeOpener.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tools\\ScanMeOpener.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  5292,
+                      "Size_MB":  0.01,
+                      "Size_Formatted":  "5.17 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 19:07:32"
+                  },
+                  {
+                      "Category_Folder":  "tools",
+                      "Relative_Path":  "tools\\test_opener.ps1",
+                      "File_Name":  "test_opener.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tools\\test_opener.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  1342,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "1.31 KB",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 18:25:53"
+                  },
+                  {
+                      "Category_Folder":  "tools",
+                      "Relative_Path":  "tools\\unregister_protocol.ps1",
+                      "File_Name":  "unregister_protocol.ps1",
+                      "Full_Path":  "E:\\Project\\Scan Me!\\tools\\unregister_protocol.ps1",
+                      "Extension":  ".ps1",
+                      "Size_Bytes":  514,
+                      "Size_MB":  0,
+                      "Size_Formatted":  "514 Bytes",
+                      "Hash":  "",
+                      "IsDuplicate":  false,
+                      "Metadata":  null,
+                      "LastModified":  "2026-09-24 17:58:31"
+                  }
+              ]
+}

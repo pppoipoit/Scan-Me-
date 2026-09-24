@@ -1,0 +1,27 @@
+# Scan Me! - Cline AI Rules & Guidelines
+
+## 🌟 Project Overview
+**Scan Me!** is an advanced file scanner, cataloger, and skill-tree generator for Windows. It is designed to scan directories recursively, inspect all file types (or targeted extensions), compute storage statistics, extract metadata & executable version information, compute hash fingerprints (MD5/SHA256) for duplicate detection, and export structured JSON/CSV data for downstream applications.
+
+## 🏗️ Architecture & Stack
+- **Platform**: Windows 10/11 (PowerShell 5.1+ / PowerShell 7+ and .NET WPF for GUI)
+- **GUI Engine**: Native Windows Presentation Foundation (WPF) with modern dark/fluent UI aesthetics (XAML + PowerShell backend)
+- **Core Engine**: `src/engine/Scanner.ps1` - High-performance recursive scanner with async-friendly pipeline
+- **Utility Modules**: `src/utils/Helpers.ps1` - Hashing, formatting, version extraction, and export handlers
+- **Configuration**: `config/default_config.json` - Persistent user preferences & scanning presets
+- **Output**: `output/` - Saved JSON / CSV / Reports
+
+## 📂 Directory Map
+- `src/engine/`: Core scanning logic, filtering, statistics, and pipeline processing
+- `src/gui/`: Modern WPF XAML layout and GUI controller script
+- `src/utils/`: Metadata extractors, duplicate hash checkers, JSON/CSV serializers
+- `config/`: Application settings and file category presets
+- `docs/`: User guides, JSON Schema specifications, and developer documentation
+- `.vscode/`: Task runners, launch configs, and editor settings
+
+## 💡 Key Design Rules for AI Agents (Cline / VS Code)
+1. **Zero External Dependency Friction**: The core application runs natively on any modern Windows system using built-in PowerShell & WPF.
+2. **Robust Path Handling**: Always wrap and quote file paths properly to handle whitespace (e.g. `D:\Project\Scan Me!`) and long paths (`\\?\`).
+3. **Encoding Standard**: All exported JSON, CSV, and markdown files MUST use **UTF-8 with BOM / UTF-8 without BOM** to support Thai and international characters.
+4. **Non-Blocking GUI**: Long-running scan jobs should report live progress and allow cancellation without freezing the UI thread.
+5. **Modular Schema**: The output JSON schema must follow `docs/SCHEMA_SPEC.md` for strict compatibility with other applications and AI agents.
