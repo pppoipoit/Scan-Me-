@@ -189,12 +189,6 @@ The JSON output is intentionally structured for downstream applications and AI w
 - 🚀 [`docs/GITHUB_UPLOAD_GUIDE.md`](docs/GITHUB_UPLOAD_GUIDE.md) — Beginner's GitHub upload guide
 - 🧩 [`docs/EXTENSIONS_GUIDE.md`](docs/EXTENSIONS_GUIDE.md) — Presets and custom extensions
 
-## 💡 License & Distribution
-
-No separate `LICENSE` file is currently included in this project. Confirm the project owner's distribution terms before publishing or redistributing the application. The release EXE is a launcher and should be distributed with the project structure or as a complete ZIP bundle.
-
----
-
 <div align="center">
 
 ### ✨ Scan once. Understand everything. 🚀
@@ -202,3 +196,11 @@ No separate `LICENSE` file is currently included in this project. Confirm the pr
 **Made for Windows • PowerShell + WPF • Local-first file intelligence**
 
 </div>
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [`LICENSE`](LICENSE) file for the full terms.
+
+Copyright © 2026 DRKMTTR Studio (Tokenmee).
