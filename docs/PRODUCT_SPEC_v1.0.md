@@ -185,6 +185,8 @@ Scan Me! สแกนโฟลเดอร์แบบเรียงลำด�
 
 ### 🧪 ด้านการทดสอบ
 - ไม่มี unit test framework มาตรฐาน — ใช้สคริปต์ตรวจสอบแบบ exit-code ใน `tests/*.ps1`
+- มี `tests/cross_host_json_test.ps1` ครอบเรื่อง host-independence ของ JSON แล้ว
+  (สแกนจริงทั้ง 5.1 และ 7 แล้ว diff) แต่ยังไม่มีเทสต์เฉพาะสำหรับ relative-path stripping
 - บางเทสต์ต้องใช้ Node.js (`context_menu_test.ps1` ใช้ Node DOM stub) และ UIAutomation (`ui_dropdown_test.ps1`)
 
 ---
@@ -224,7 +226,7 @@ Scan Me! สแกนโฟลเดอร์แบบเรียงลำด�
 | Copy Path / Copy Tree Text ถูกต้อง (backslash + ครบทุกโฟลเดอร์) | ✅ |
 | Live search กรองได้ทันที | ✅ |
 | JSON ตรงตาม `SCHEMA_SPEC.md` | ✅ |
-| **ผลลัพธ์เหมือนกันทุก host (5.1 / 7.6)** | ✅ ยืนยัน 2026-09-26 |
+| **ผลลัพธ์เหมือนกันทุก host (5.1 / 7.6)** | ✅ ยืนยัน 2026-09-26 ด้วย `tests/cross_host_json_test.ps1` |
 | Zero external dependencies | ✅ |
 | ไม่ต้องใช้สิทธิ์แอดมิน | ✅ |
 

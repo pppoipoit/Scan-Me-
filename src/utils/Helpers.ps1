@@ -46,6 +46,35 @@ function Format-ScanDateTime {
     return ([datetime]$Value).ToString($Format, [System.Globalization.CultureInfo]::InvariantCulture)
 }
 
+# Contract-stable number formatter.
+# PowerShell 7's ConvertTo-Json renders ANY whole-valued floating point number with a
+# trailing ".0" ("0.0", "5.0") while Windows PowerShell 5.1 renders the same value as
+# "0" and "5". That made the SAME scan emit different JSON per host for every rounded
+# MB / duration value. JSON has no int-vs-float distinction, so emitting the integer
+# literal is schema-valid for a "number" field and makes the output byte-identical.
+# Genuinely fractional values (19.15) are returned unchanged and already match.
+function ConvertTo-StableNumber {
+    param (
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        $Value
+    )
+
+    if ($null -eq $Value) { return $null }
+
+    try {
+        $d = [double]$Value
+    }
+    catch {
+        return $Value
+    }
+
+    if ([double]::IsNaN($d) -or [double]::IsInfinity($d)) { return $Value }
+    if ($d -eq [math]::Floor($d) -and [math]::Abs($d) -lt 2147483647) { return [int]$d }
+
+    return $Value
+}
+
 function Get-FileChecksum {
     param (
         [Parameter(Mandatory = $true)]

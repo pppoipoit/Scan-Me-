@@ -124,7 +124,7 @@ function Invoke-DirectoryScan {
         }
 
         $fileSize = [int64]$file.Length
-        $fileSizeMB = [math]::Round($fileSize / 1MB, 2)
+        $fileSizeMB = ConvertTo-StableNumber ([math]::Round($fileSize / 1MB, 2))
         $formattedSize = Format-FileSize -Bytes $fileSize
         $ext = $file.Extension.ToLower()
         if ([string]::IsNullOrWhiteSpace($ext)) { $ext = "(no extension)" }
@@ -201,10 +201,10 @@ function Invoke-DirectoryScan {
         Scan_Meta = [ordered]@{
             Target_Folder     = $TargetFolder
             Scan_Timestamp    = Format-ScanDateTime -Value (Get-Date)
-            Scan_Duration_Sec = [math]::Round($stopwatch.Elapsed.TotalSeconds, 2)
+            Scan_Duration_Sec = ConvertTo-StableNumber ([math]::Round($stopwatch.Elapsed.TotalSeconds, 2))
             Total_Files       = $fileList.Count
             Total_Size_Bytes  = $totalBytes
-            Total_Size_MB     = [math]::Round($totalBytes / 1MB, 2)
+            Total_Size_MB     = ConvertTo-StableNumber ([math]::Round($totalBytes / 1MB, 2))
             Total_Size_Human  = Format-FileSize -Bytes $totalBytes
             Hash_Calculated   = [bool]$CalcHash
             Duplicate_Files   = $duplicateCount

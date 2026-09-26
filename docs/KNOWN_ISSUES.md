@@ -32,10 +32,13 @@
 
 ### ISSUE-002: .clinerules เป็น single file — maintain ยากขึ้นเรื่อยๆ
 
-**Status**: ℹ️ ทราบแล้ว — ไม่ใช่บัค
+**Status**: ⚠️ ยังเปิดอยู่ — เติบโตขึ้นจนเห็นผลแล้ว (2026-09-26)
 **รายละเอียด**: โปรเจกต์นี้ใช้ .clinerules แบบ single file (ต่างจาก Key Scraper ที่แบ่งเป็น 6 ไฟล์)
-**Impact**: ถ้า rules เพิ่มมากขึ้น ไฟล์จะยาวและหา rule เฉพาะเรื่องยาก
-**แนวทาง**: ถ้า session ถัดไปมีเวลา แนะนำให้ migrate เป็น `.clinerules/` folder แบบ Key Scraper
+**Impact**: ตอนนี้มี 6 กฎ และกฎที่ 6 (Culture-Invariant Serialization) ยาวมากจนซ้ำซ้อนกับ `docs/TECHNICAL_SPEC.md`
+**แนวทาง**: ย้ายเป็น `.clinerules/` folder แบบ Key Scraper — คงกฎที่ 1-5 ไว้ แต่ตัดกฎที่ 6
+ให้เหลือเฉพาะข้อบังคับสั้น ๆ ("ใช้ `Format-ScanDateTime` / `ConvertTo-StableNumber` และรัน
+`tests\cross_host_json_test.ps1` ก่อน commit") แล้วชี้ไปที่ `docs/TECHNICAL_SPEC.md` §2 สำหรับรายละเอียด
+→ ติดตามเป็น TC-005 ใน `docs/CURRENT_TASK.md`
 
 ### ISSUE-003: ไม่มี HANDOFF.md และ CURRENT_TASK.md (แก้แล้ว)
 

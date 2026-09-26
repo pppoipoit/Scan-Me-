@@ -94,11 +94,16 @@ Export 3 ไฟล์อัตโนมัติ: latest_scan.json, latest_tree.
 | ปัญหา | พฤติกรรม | วิธีแก้ |
 | :--- | :--- | :--- |
 | ปี พ.ศ. | `DateTime.ToString("yyyy-MM-dd HH:mm:ss")` บน locale `th-TH` ให้ **2569** แทน 2026 (PS7 สืบทอด OS locale, PS 5.1 บังคับ `en-US`) | ใช้ **`Format-ScanDateTime`** ที่ pin `InvariantCulture` |
-| เลข float | `Measure-Object -Sum` คืน `Double` → PS7 เขียน `50746.0` แต่ 5.1 เขียน `50746` | cast เป็น **`[int64]`** ก่อน serialize |
+| เลข float ที่เป็นจำนวนเต็ม | `[math]::Round()` คืน `Double` → **PS7 เขียน `0.0` / `5.0`** แต่ 5.1 เขียน `0` / `5` (cast เป็น `[decimal]` **ไม่ช่วย**) | ครอบด้วย **`ConvertTo-StableNumber`** (whole → `[int]`, fractional → คงเดิม) |
+| ผลรวมจาก `Measure-Object` | คืน `Double` → PS7 เขียน `50746.0` แต่ 5.1 เขียน `50746` | cast เป็น **`[int64]`** ก่อน serialize |
+
+> JSON ไม่มีการแยก int/float ดังนั้นการเขียน `0` แทน `0.0` ใน field ที่สัญญาประกาศเป็น `number`
+> จึงยังถูกต้องตาม schema และทำให้ผลลัพธ์ **เหมือนกันทุก host** จริง
+> (ค่าที่มีทศนิยมจริง เช่น `19.15` ยังคงเป็น float และตรงกันทั้งสอง host)
 
 > 📌 **กฎของโปรเจกต์:** ห้ามเรียก `DateTime.ToString(format)` แบบไม่ระบุ culture
-> **ทุกครั้งที่แก้โค้ดที่แตะ output ต้องรันทดสอบด้วยทั้ง `powershell.exe` และ `pwsh.exe` แล้ว diff JSON**
-> (ดู `.clinerules` rule #6)
+> **ทุกครั้งที่แก้โค้ดที่แตะ output ต้องรัน `tests\cross_host_json_test.ps1` ซึ่งจะรันทั้ง
+> `powershell.exe` และ `pwsh.exe` แล้ว diff JSON ให้อัตโนมัติ** (ดู `.clinerules` rule #6)
 
 ---
 
@@ -192,12 +197,13 @@ Scan Me!/
 
 ### 4.3 `src/utils/Helpers.ps1` — Export functions and utilities
 
-ทั้งหมด 9 ฟังก์ชัน:
+ทั้งหมด 10 ฟังก์ชัน:
 
 | Function | หน้าที่ |
 | :--- | :--- |
 | `Format-FileSize` | bytes → `"1.45 GB"` / `"512.00 KB"` / `"123 Bytes"` |
 | `Format-ScanDateTime` | **culture-invariant** date → `"yyyy-MM-dd HH:mm:ss"` ด้วย `InvariantCulture` |
+| `ConvertTo-StableNumber` | **host-stable** number: whole → `[int]`, fractional → คงเดิม (กัน PS7 เติม `.0`) |
 | `Get-FileChecksum` | `Get-FileHash` แบบปลอดภัย; คืน `"ERROR_READING_HASH"` เมื่อล็อก/อ่านไม่ได้ |
 | `Get-FileDetailedMetadata` | `FileVersionInfo` → version/company/description (เฉพาะ `.exe/.dll/.sys/.msi`) |
 | `Export-ScanResultToJson` | เขียน JSON ตาม `SCHEMA_SPEC.md` (UTF-8) |
@@ -312,6 +318,7 @@ Scan Me!/
 | `context_menu_test.ps1` | `scanme://` URL ของโฟลเดอร์/ไฟล์, encoding ของ ช่องว่าง/`!`/Unicode, row-only menu suppression | ใช้ **Node DOM stub** → ต้องมี Node.js |
 | `icon_test.ps1` | ไอคอน canonical ทั้ง 3 จุด (XAML logo, P/Invoke ordering, exe icon) | export ไอคอน exe เป็น PNG แล้วเทียบกับ `assets\app.ico` |
 | `ui_dropdown_test.ps1` | `CmbPresets` Expand/Collapse ผ่าน **System.Windows.Automation** | ต้องเปิดหน้าต่างจริง — เป็น UI integration test |
+| `cross_host_json_test.ps1` | รัน engine ใต้ **ทุก PowerShell host** ที่มี แล้ว diff JSON | กันบั๊กปี พ.ศ. / float `.0` กลับมา (เจอบั๊กจริงตอนสร้างเทสต์นี้) |
 
 ### วิธีรัน
 ```powershell
@@ -327,8 +334,9 @@ Get-ChildItem .\tests\*.ps1 | ForEach-Object {
 
 ### ⚠️ ช่องว่างในการทดสอบปัจจุบัน
 - ไม่มี test ครอบ `Scanner.ps1` โดยตรง (hash loop, relative-path stripping, statistics)
-- ไม่มี test ที่ยืนยัน **cross-host JSON stability** แบบอัตโนมัติ
-  → **ควรเพิ่ม** เป็นสิ่งแรก ๆ (ดูข้อเสนอใน ROADMAP)
+  → **ครอบแล้วบางส่วน** ผ่าน `cross_host_json_test.ps1` (duplicate detection + statistics + stability)
+  ส่วน relative-path stripping ยังไม่มีเทสต์เฉพาะ
+- ไม่มี test runner กลาง — ต้องรันทีละไฟล์ (ดู TC-006 ใน `docs/CURRENT_TASK.md`)
 - ไม่มี unit test framework — ใช้แนวทาง script + exit code ล้วน
 
 ---

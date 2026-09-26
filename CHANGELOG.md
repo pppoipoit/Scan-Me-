@@ -6,11 +6,14 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - **Culture-invariant dates (cross-host JSON stability)**: `LastModified`, `Scan_Timestamp`, and metadata `CreationTime`/`LastWriteTime` used the culture-sensitive `DateTime.ToString("yyyy-MM-dd HH:mm:ss")`. PowerShell 7 inherits the OS locale, so on a `th-TH` system the `ThaiBuddhistCalendar` emitted year **2569** instead of 2026, while Windows PowerShell 5.1 forces `en-US` and emitted 2026. The same scan therefore produced different output depending on the host, violating `docs/SCHEMA_SPEC.md`. All four call sites now use the new `Format-ScanDateTime` helper, which pins `InvariantCulture`.
 - **Integer `Total_Size_Bytes`**: `Measure-Object -Sum` returns a `Double`, so PowerShell 7's `ConvertTo-Json` emitted `"Total_Size_Bytes": 50746.0` while 5.1 emitted `50746`. The result is now cast to `[int64]` before serialization to match the schema's declared `integer` type.
+- **Whole-valued floats still drifted across hosts** (found while writing the new cross-host test): PowerShell 7's `ConvertTo-Json` appends `.0` to *every* whole-valued floating point number (`0.0`, `5.0`) while 5.1 emits `0` and `5`, and casting to `[decimal]` does **not** help. This affected `Total_Size_MB`, per-file `Size_MB`, and `Scan_Duration_Sec` — so the previous fix was incomplete. A new `ConvertTo-StableNumber` helper returns an `[int]` for whole values (JSON has no int/float distinction, so this remains valid for a `number` field) and leaves genuinely fractional values such as `19.15` untouched. Verified on a real 54-file scan: output is now identical across hosts apart from the legitimately volatile `Scan_Timestamp` and `Scan_Duration_Sec`.
 
 ### Added
 - **`Format-ScanDateTime` helper** in `src/utils/Helpers.ps1` — culture-invariant, Gregorian, host-independent date formatting.
+- **`ConvertTo-StableNumber` helper** in `src/utils/Helpers.ps1` — host-stable number formatting for whole vs. fractional values.
+- **`tests/cross_host_json_test.ps1`** — runs the engine under every available PowerShell host (`powershell.exe` and `pwsh.exe`), then asserts Gregorian years, integer byte counts, and byte-identical `Scan_Meta` / `Files[]` / `Category_Stats` / `Extension_Stats`. This automates the dual-host check that `.clinerules` rule #6 previously required by hand, and is what surfaced the whole-valued float defect above.
 - **📋 System Requirements section** in `README.md` with a minimum/recommended matrix, Windows 7 SP1 prerequisites, and explicit Client Profile / PowerShell 7-on-Windows 7 exclusions.
-- **AI agent rule #6 (Culture-Invariant Serialization)** in `.clinerules`, mandating dual-host (`powershell.exe` + `pwsh.exe`) JSON diffing for any change touching serialization.
+- **AI agent rule #6 (Culture-Invariant Serialization)** in `.clinerules`, extended to cover the whole-valued float case and to require `tests\cross_host_json_test.ps1` to pass.
 - **Troubleshooting entries** for the two most common launch failures: missing full .NET Framework (Client Profile present) and PowerShell older than 5.1.
 
 ### Documentation
