@@ -209,11 +209,16 @@ The JSON output is intentionally structured for downstream applications and AI w
 ## 📚 Documentation
 
 - 📖 [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md) — Step-by-step product usage
+- 📘 [`docs/PRODUCT_SPEC_v1.0.md`](docs/PRODUCT_SPEC_v1.0.md) — Full feature list, user workflows, and known limitations
+- 🏗️ [`docs/TECHNICAL_SPEC.md`](docs/TECHNICAL_SPEC.md) — Architecture, key components, build, and testing
 - 🏛️ [`ARCHITECTURE.md`](ARCHITECTURE.md) — Layers, data flow, and design decisions
+- 📄 [`docs/SCHEMA_SPEC.md`](docs/SCHEMA_SPEC.md) — JSON data contract for integrations
 - 🧪 [`CHANGELOG.md`](CHANGELOG.md) — Version history
 - 🗓️ [`docs/RELEASE_NOTES_v1.0.0.md`](docs/RELEASE_NOTES_v1.0.0.md) — GitHub Release summary
+- 🚀 [`ROADMAP.md`](ROADMAP.md) — Released features, v1.1 plans, and long-term vision
 - 🚀 [`docs/GITHUB_UPLOAD_GUIDE.md`](docs/GITHUB_UPLOAD_GUIDE.md) — Beginner's GitHub upload guide
 - 🧩 [`docs/EXTENSIONS_GUIDE.md`](docs/EXTENSIONS_GUIDE.md) — Presets and custom extensions
+- 🤝 [`docs/HANDOFF.md`](docs/HANDOFF.md) — Project handoff notes for contributors and AI agents
 
 <div align="center">
 

@@ -16,6 +16,11 @@ All notable changes to this project will be documented in this file.
 ### Documentation
 - Documented **Windows 7 SP1** as a supported platform in `README.md`, `docs/RELEASE_NOTES_v1.0.0.md`, and `.clinerules` (previously Windows 10/11 only).
 - Closed **ISSUE-001** in `docs/KNOWN_ISSUES.md`: verified `ScanMe.exe` is a legitimate 54 KB .NET Framework 4.x AnyCPU WinExe launcher (the recorded "5KB" size was outdated). Confirmed it hardcodes no PowerShell version and targets `powershell.exe` by design.
+- **Corrected `docs/HANDOFF.md`**: it described the project as a "QR Code / Barcode Scanner", which was wrong — no camera, overlay, or barcode code exists in the repository. Rewrote the project description, Tech Stack, and current-state sections to match the actual folder scanner product, and removed the resolved "5KB launcher" concern in favour of the verified 54 KB WinExe plus Windows 7 prerequisites (.NET 4.8 full + WMF 5.1).
+- **Added `docs/PRODUCT_SPEC_v1.0.md`**: retrospective product specification covering vision, design principles, the full feature list, user workflows, supported platforms, known limitations, and success criteria.
+- **Added `docs/TECHNICAL_SPEC.md`**: architecture (scanner engine → GUI → exporters → protocol handler), tech stack, file structure, per-component detail, dependencies, build process, and the test suite.
+- **Updated `ROADMAP.md`**: marked v1.0.0 as released (2026-09-26) with the v1.0.0 feature list, added a phased v1.1–v2.0 feature outlook (i18n, cloud sync, AI categorization, real-time monitoring, cross-platform), and documented a long-term vision.
+- Linked the new specifications from the README documentation index.
 
 ## [1.0.0] - 2026-08-24
 ### Added
