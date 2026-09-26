@@ -21,6 +21,9 @@
       5. The Files array is identical across hosts after normalizing
          Get-ChildItem enumeration order.
       6. Category_Stats and Extension_Stats are identical across hosts.
+      7. (Added after the first run) Checksum hashing actually works on every host, and
+         produces the same Hash string - Get-FileHash is a module-autoloaded cmdlet that
+         is unresolvable when a 5.1 child inherits PS7's PSModulePath.
 
     Cross-host comparisons are skipped (not failed) when only one host is installed.
     The culture and integer invariants are still asserted on that single host.
@@ -112,10 +115,18 @@ foreach ($r in $results) {
     $parsed[$r.Name] = $obj
 
     # 3a. Every date token must use a 4-digit Gregorian year between 2000 and 2099.
+    # Extract the year with a regex, NOT String.IndexOf('-'): in PowerShell 7 a bare '-'
+    # argument is parsed as the unary minus operator and reaches the method as $null, so
+    # IndexOf returns 0, Substring(0,0) is empty, [int]'' is 0, and every correctly
+    # formatted date was reported as an out-of-range "Buddhist" year. That false positive
+    # masked the real defect this test was written to catch.
     $dateTokens = [regex]::Matches($raw, '\d{3,4}-\d{2}-\d{2}') | ForEach-Object { $_.Value }
-    $badYears = @($dateTokens | Where-Object {
-        $y = [int]$_.Substring(0, $_.IndexOf('-'))
-        ($y -lt 2000 -or $y -gt 2099)
+    $badYears = @($dateTokens | ForEach-Object {
+        $m = [regex]::Match($_, '^(\d{3,4})-')
+        if ($m.Success) {
+            $y = [int]$m.Groups[1].Value
+            if ($y -lt 2000 -or $y -gt 2099) { $_ }
+        }
     } | Sort-Object -Unique)
     Assert "$($r.Name): all date years are Gregorian 2000-2099 (no Buddhist year)" `
            ($badYears.Count -eq 0) "found: $($badYears -join ', ')"

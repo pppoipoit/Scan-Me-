@@ -75,6 +75,19 @@ function ConvertTo-StableNumber {
     return $Value
 }
 
+# Contract-stable checksum.
+#
+# This deliberately does NOT call the Get-FileHash cmdlet. That cmdlet lives in the
+# Microsoft.PowerShell.Utility module and is only reachable through module auto-loading,
+# which depends on $env:PSModulePath. When Windows PowerShell 5.1 is launched from a
+# PowerShell 7 session (the child inherits PS7's PSModulePath, which does not contain the
+# 5.1 module directories) auto-loading fails and Get-FileHash raises
+# CommandNotFoundException. The old catch() swallowed that, so EVERY file silently came
+# back as "ERROR_READING_HASH": duplicate detection reported 0 duplicates, Hash was garbage,
+# and the scan still exited 0 - a silent wrong-answer failure, which is worse than a crash.
+#
+# System.Security.Cryptography ships in-box with .NET Framework 4.x, so this stays
+# dependency-free and produces identical hashes on every host, per the zero-dependency rule.
 function Get-FileChecksum {
     param (
         [Parameter(Mandatory = $true)]
@@ -82,16 +95,41 @@ function Get-FileChecksum {
         [ValidateSet("MD5", "SHA256")]
         [string]$Algorithm = "MD5"
     )
+
     try {
-        if (Test-Path -LiteralPath $FilePath) {
-            $hash = Get-FileHash -LiteralPath $FilePath -Algorithm $Algorithm -ErrorAction Stop
-            return $hash.Hash
+        if (!(Test-Path -LiteralPath $FilePath)) { return "" }
+
+        $hasher = if ($Algorithm -eq "SHA256") {
+            [System.Security.Cryptography.SHA256]::Create()
+        } else {
+            [System.Security.Cryptography.MD5]::Create()
         }
+
+        try {
+            # ReadWrite share matches Get-FileHash: a file another process has open for
+            # reading must still be hashable.
+            $stream = [System.IO.File]::Open(
+                $FilePath,
+                [System.IO.FileMode]::Open,
+                [System.IO.FileAccess]::Read,
+                [System.IO.FileShare]::ReadWrite)
+            try {
+                $bytes = $hasher.ComputeHash($stream)
+            }
+            finally {
+                $stream.Dispose()
+            }
+        }
+        finally {
+            $hasher.Dispose()
+        }
+
+        # Uppercase hex without separators, byte-identical to Get-FileHash's .Hash format.
+        return ([System.BitConverter]::ToString($bytes)).Replace("-", "")
     }
     catch {
         return "ERROR_READING_HASH"
     }
-    return ""
 }
 
 function Get-FileDetailedMetadata {
