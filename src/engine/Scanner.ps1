@@ -180,7 +180,7 @@ function Invoke-DirectoryScan {
             Hash            = $fileHash
             IsDuplicate     = $isDuplicate
             Metadata        = $metadata
-            LastModified    = $file.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")
+            LastModified    = Format-ScanDateTime -Value $file.LastWriteTime
         }
 
         $fileList.Add($itemObj)
@@ -191,13 +191,16 @@ function Invoke-DirectoryScan {
     }
 
     $stopwatch.Stop()
-    $totalBytes = ($fileList | Measure-Object -Property Size_Bytes -Sum).Sum
+    # Measure-Object -Sum returns Double, so PowerShell 7's ConvertTo-Json emits "50746.0"
+    # while PowerShell 5.1 emitted "50746". The schema declares Total_Size_Bytes as an
+    # integer, so pin the type before serialization to keep output host-independent.
+    $totalBytes = [int64](($fileList | Measure-Object -Property Size_Bytes -Sum).Sum)
     if (!$totalBytes) { $totalBytes = [int64]0 }
 
     $scanResult = [ordered]@{
         Scan_Meta = [ordered]@{
             Target_Folder     = $TargetFolder
-            Scan_Timestamp    = (Get-Date).ToString("yyyy-MM-dd HH:mm:ss")
+            Scan_Timestamp    = Format-ScanDateTime -Value (Get-Date)
             Scan_Duration_Sec = [math]::Round($stopwatch.Elapsed.TotalSeconds, 2)
             Total_Files       = $fileList.Count
             Total_Size_Bytes  = $totalBytes

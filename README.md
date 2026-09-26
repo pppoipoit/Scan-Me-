@@ -6,7 +6,7 @@
 
 **Deep scanning • Root tree exploration • Duplicate detection • Interactive HTML export**
 
-[![Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-2563EB.svg)](https://microsoft.com)
+[![Windows](https://img.shields.io/badge/Platform-Win%207%20SP1%20%7C%2010%20%7C%2011-2563EB.svg)](https://microsoft.com)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%20%7C%207%2B-5391FE.svg)](https://github.com/PowerShell/PowerShell)
 [![WPF](https://img.shields.io/badge/UI-WPF%20Fluent%20Dark-06B6D4.svg)]()
 [![Release](https://img.shields.io/badge/Release-v1.0.0-10B981.svg)]()
@@ -69,11 +69,35 @@ The exported HTML tree provides a focused right-click context menu on each folde
 
 ### ⚡ Blazing Fast PowerShell + WPF Engine
 
-- ⚙️ Uses a lightweight, native Windows stack: PowerShell 5.1+ or PowerShell 7+ and WPF.
+- ⚙️ Uses a lightweight, native Windows stack: **Windows PowerShell 5.1** or **PowerShell 7+**, plus full .NET Framework 4.x (WPF). No external modules.
 - 🪟 Provides a responsive modern dark interface with live progress and status feedback.
 - 🧵 Keeps the core engine, GUI controller, helpers, configuration, and documentation modular.
 - 🧰 Ships with JSON, CSV, HTML, and plain-text export options.
 - 🧪 Includes focused tests for tree behavior, dropdowns, icons, copy actions, and the context menu.
+- 🌐 Date and size fields are **culture-invariant and host-independent** — the same scan produces identical JSON on PowerShell 5.1 and 7+.
+
+## 📋 System Requirements
+
+| | Minimum | Recommended |
+| :--- | :--- | :--- |
+| **OS** | Windows 7 SP1\* | Windows 10 / 11 |
+| **PowerShell** | Windows PowerShell 5.1 | 5.1 **or** PowerShell 7+ |
+| **.NET Framework** | 4.8 (full — **not** Client Profile) | 4.8 |
+| **Disk space** | ~50 MB | ~50 MB |
+| **RAM** | 512 MB | 1 GB+ |
+
+> ⚠️ **\* Windows 7 SP1 requires manual setup.**
+> Windows 7 ships with **.NET Framework 3.5.1** and **PowerShell 2.0** — neither can run
+> Scan Me!. Before first launch, install:
+> 1. **.NET Framework 4.8** (full, from Microsoft)
+> 2. **Windows Management Framework 5.1** (provides Windows PowerShell 5.1)
+>
+> **.NET Framework 4 Client Profile is not supported** — it excludes WPF, so the GUI cannot start.
+> **PowerShell 7 is not supported on Windows 7** by Microsoft; Windows 7 users must use
+> Windows PowerShell 5.1. `ScanMe.exe` invokes `powershell.exe` by design.
+
+**What you do NOT need:** no PowerShell modules, no NuGet/PSGallery packages, no internet
+connection, and no administrator rights (protocol registration is per-user `HKCU`).
 
 ## 🚀 Quick Start
 
@@ -143,7 +167,9 @@ If the old icon remains, restart **Windows Explorer** or sign out and back in. T
 
 - 📁 Confirm `ScanMe.exe` is next to `src`, `assets`, and `config`—do not move only the EXE.
 - ⚙️ Try `run.bat` or launch `src\gui\MainWindow.ps1` with Windows PowerShell.
-- 🪟 Scan Me! is designed for Windows 10/11 with PowerShell/WPF available.
+- 🪟 Supported: Windows 7 SP1, 10, and 11. See [📋 System Requirements](#-system-requirements) for the Windows 7 prerequisites.
+- 🔍 If you see "The type initializer for ... threw an exception", your machine likely has only the **.NET 4 Client Profile**. Install the full **.NET Framework 4.8**.
+- 🔍 If PowerShell reports a version below 5.1 (common on Windows 7), install **Windows Management Framework 5.1**.
 
 ### 🧬 Duplicate detection is slower than a normal scan
 

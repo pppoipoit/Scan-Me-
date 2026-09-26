@@ -8,22 +8,27 @@
 
 ### ISSUE-001: ScanMe.exe ขนาด 5KB — อาจไม่ใช่ standalone exe จริงๆ
 
-**Status**: ⚠️ ยังไม่ verify
-**Impact ถ้าเป็น launcher**: exe พังในเครื่องที่ไม่มี PowerShell/script engine ที่ต้องการ
+**Status**: ✅ **ปิดแล้ว 2026-09-26 (verified)** — ไม่ใช่บั๊ก
+**Impact**: —
 
-WPF application ขนาดปกติจะมีขนาด 1–30 MB ขึ้นอยู่กับว่า embed .NET runtime หรือไม่
-exe ขนาด 5KB ชี้ว่าน่าจะเป็น:
-- Launcher script ที่ compile เป็น exe
-- Bootstrapper ที่เรียก main logic จาก DLL/PS1 อื่น
+ตรวจสอบจริงแล้ว (binary analysis + Reflection) ยืนยันว่า ScanMe.exe เป็น **native .NET Framework WinExe launcher** ที่ถูกต้อง:
 
-**วิธีตรวจ**:
-```powershell
-# ดู dependencies
-dumpbin /dependents ScanMe.exe   # ถ้ามี Visual Studio
+| Property | ค่าจริง |
+| :--- | :--- |
+| AssemblyName | `ScanMe, Version=0.0.0.0` |
+| CLR header | `v4.0.30319` (.NET Framework 4.x) |
+| ProcessorArchitecture | `None` (AnyCPU) |
+| Manifest | `requestedExecutionLevel = asInvoker` (ไม่ขอ UAC) |
+| **ขนาดจริง** | **55,820 bytes (~54 KB)** — *ไม่ใช่ 5KB* |
 
-# หรือดูว่า process ลูกอะไรถูก spawn ตามมา
-Get-Process | Where-Object { $_.Parent.Id -eq (Get-Process ScanMe).Id }
-```
+ตัวเลข 5KB ในรายการนี้เป็นข้อมูลผิด (outdated) — ขนาดจริงประมาณ 54 KB ซึ่ง **ถูกต้อง** สำหรับ WinExe ที่ฝังไอคอน 49 KB และไม่มี payload อื่น
+
+หน้าที่ของมันคือ spawn `powershell.exe -NoProfile -ExecutionPolicy Bypass -STA -WindowStyle Hidden -File ...\MainWindow.ps1`
+และส่ง env var `SCANME_EXE_PATH` ให้สคริปต์ — **ไม่ hardcode เวอร์ชัน PowerShell ใดๆ** และตั้งใจเรียก `powershell.exe` (5.1) ไม่ใช่ `pwsh.exe` (7)
+ดังนั้น **รองรับ Windows 7 ได้** เพราะ target .NET Framework 4.x ที่ Win7 SP1 รองรับ
+
+**หลักฐานว่าเป็น launcher ไม่ใช่บั๊ก:** ไฟล์เล็กเพราะโดย*ตั้งใจ* เป็น bootstrapper ไม่ใช่ standalone — README ระบุชัดเจนแล้วว่า
+"`ScanMe.exe` is a Windows launcher ... it is not a self-contained single-file bundle" ต้องวางไว้คู่กับโฟลเดอร์ `src` เสมอ
 
 ### ISSUE-002: .clinerules เป็น single file — maintain ยากขึ้นเรื่อยๆ
 

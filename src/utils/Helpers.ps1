@@ -25,6 +25,27 @@ function Format-FileSize {
     }
 }
 
+# Contract-stable date formatter.
+# DateTime.ToString(format) is CULTURE-SENSITIVE. Under a Thai (th-TH) locale the
+# ThaiBuddhistCalendar renders the year as 2569 instead of 2026. PowerShell 7 inherits the
+# OS user locale, while Windows PowerShell 5.1 forces en-US, so the raw overload made the
+# SAME scan emit different years depending on the host and broke docs/SCHEMA_SPEC.md.
+# Pinning InvariantCulture guarantees a Gregorian, host-independent value.
+function Format-ScanDateTime {
+    param (
+        [Parameter(Mandatory = $false)]
+        [AllowNull()]
+        $Value,
+
+        [Parameter(Mandatory = $false)]
+        [string]$Format = "yyyy-MM-dd HH:mm:ss"
+    )
+
+    if ($null -eq $Value) { return "" }
+
+    return ([datetime]$Value).ToString($Format, [System.Globalization.CultureInfo]::InvariantCulture)
+}
+
 function Get-FileChecksum {
     param (
         [Parameter(Mandatory = $true)]
@@ -55,8 +76,8 @@ function Get-FileDetailedMetadata {
     $meta = [ordered]@{
         FileType        = $FileInfo.Extension.ToLower()
         IsReadOnly      = $FileInfo.IsReadOnly
-        CreationTime    = $FileInfo.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
-        LastWriteTime   = $FileInfo.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")
+        CreationTime    = Format-ScanDateTime -Value $FileInfo.CreationTime
+        LastWriteTime   = Format-ScanDateTime -Value $FileInfo.LastWriteTime
         FileVersion     = $null
         ProductVersion  = $null
         CompanyName     = $null

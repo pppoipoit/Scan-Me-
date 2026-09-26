@@ -4,7 +4,8 @@
 **Scan Me!** is an advanced file scanner, cataloger, and skill-tree generator for Windows. It is designed to scan directories recursively, inspect all file types (or targeted extensions), compute storage statistics, extract metadata & executable version information, compute hash fingerprints (MD5/SHA256) for duplicate detection, and export structured JSON/CSV data for downstream applications.
 
 ## 🏗️ Architecture & Stack
-- **Platform**: Windows 10/11 (PowerShell 5.1+ / PowerShell 7+ and .NET WPF for GUI)
+- **Platform**: Windows 7 SP1 / 10 / 11 (Windows PowerShell 5.1+ **or** PowerShell 7+ on .NET Framework 4.x + WPF)
+- **No external dependencies**: zero PowerShell modules, zero NuGet/PSGallery packages. All assemblies are in-box .NET Framework (PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms, System.Drawing).
 - **GUI Engine**: Native Windows Presentation Foundation (WPF) with modern dark/fluent UI aesthetics (XAML + PowerShell backend)
 - **Core Engine**: `src/engine/Scanner.ps1` - High-performance recursive scanner with async-friendly pipeline
 - **Utility Modules**: `src/utils/Helpers.ps1` - Hashing, formatting, version extraction, and export handlers
@@ -25,3 +26,4 @@
 3. **Encoding Standard**: All exported JSON, CSV, and markdown files MUST use **UTF-8 with BOM / UTF-8 without BOM** to support Thai and international characters.
 4. **Non-Blocking GUI**: Long-running scan jobs should report live progress and allow cancellation without freezing the UI thread.
 5. **Modular Schema**: The output JSON schema must follow `docs/SCHEMA_SPEC.md` for strict compatibility with other applications and AI agents.
+6. **Culture-Invariant Serialization (CRITICAL)**: Never format dates with the culture-sensitive `DateTime.ToString("yyyy-MM-dd HH:mm:ss")`. PowerShell 7 inherits the OS locale, so on a `th-TH` system the ThaiBuddhistCalendar emits year **2569** instead of 2026, while PowerShell 5.1 forces `en-US` and emits 2026. Always use the `Format-ScanDateTime` helper in `src/utils/Helpers.ps1`, which pins `InvariantCulture`. Likewise, cast any `Measure-Object -Sum` result to `[int64]` before serializing, because PowerShell 7's `ConvertTo-Json` renders a `Double` as `50746.0` while 5.1 renders `50746`. **Verify every change by running the engine under BOTH `powershell.exe` and `pwsh.exe` and diffing the JSON.**

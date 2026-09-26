@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased] - 2026-09-26
+### Fixed
+- **Culture-invariant dates (cross-host JSON stability)**: `LastModified`, `Scan_Timestamp`, and metadata `CreationTime`/`LastWriteTime` used the culture-sensitive `DateTime.ToString("yyyy-MM-dd HH:mm:ss")`. PowerShell 7 inherits the OS locale, so on a `th-TH` system the `ThaiBuddhistCalendar` emitted year **2569** instead of 2026, while Windows PowerShell 5.1 forces `en-US` and emitted 2026. The same scan therefore produced different output depending on the host, violating `docs/SCHEMA_SPEC.md`. All four call sites now use the new `Format-ScanDateTime` helper, which pins `InvariantCulture`.
+- **Integer `Total_Size_Bytes`**: `Measure-Object -Sum` returns a `Double`, so PowerShell 7's `ConvertTo-Json` emitted `"Total_Size_Bytes": 50746.0` while 5.1 emitted `50746`. The result is now cast to `[int64]` before serialization to match the schema's declared `integer` type.
+
+### Added
+- **`Format-ScanDateTime` helper** in `src/utils/Helpers.ps1` — culture-invariant, Gregorian, host-independent date formatting.
+- **📋 System Requirements section** in `README.md` with a minimum/recommended matrix, Windows 7 SP1 prerequisites, and explicit Client Profile / PowerShell 7-on-Windows 7 exclusions.
+- **AI agent rule #6 (Culture-Invariant Serialization)** in `.clinerules`, mandating dual-host (`powershell.exe` + `pwsh.exe`) JSON diffing for any change touching serialization.
+- **Troubleshooting entries** for the two most common launch failures: missing full .NET Framework (Client Profile present) and PowerShell older than 5.1.
+
+### Documentation
+- Documented **Windows 7 SP1** as a supported platform in `README.md`, `docs/RELEASE_NOTES_v1.0.0.md`, and `.clinerules` (previously Windows 10/11 only).
+- Closed **ISSUE-001** in `docs/KNOWN_ISSUES.md`: verified `ScanMe.exe` is a legitimate 54 KB .NET Framework 4.x AnyCPU WinExe launcher (the recorded "5KB" size was outdated). Confirmed it hardcodes no PowerShell version and targets `powershell.exe` by design.
+
 ## [1.0.0] - 2026-08-24
 ### Added
 - **Modern WPF GUI**: Built full dark-themed Fluent GUI with gradient headers, dynamic status indicators, and responsive controls.

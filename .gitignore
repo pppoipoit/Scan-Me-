@@ -1,0 +1,8 @@
+# Release archives (built via build_exe.ps1 / manual packaging)
+*.zip
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+*.user

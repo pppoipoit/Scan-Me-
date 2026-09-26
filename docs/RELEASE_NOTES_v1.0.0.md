@@ -5,9 +5,9 @@
 ### ⚡ From a folder scanner to a polished file intelligence experience ✨
 
 **Release tag:** `v1.0.0`  
-**Platform:** Windows 10/11  
+**Platform:** Windows 7 SP1 / 10 / 11  
 **Interface:** Modern dark WPF UI  
-**Engine:** PowerShell 5.1+ / PowerShell 7+
+**Engine:** Windows PowerShell 5.1+ / PowerShell 7+ (.NET Framework 4.x)
 
 </div>
 
@@ -123,13 +123,20 @@ No administrator rights are required. If the project is moved, run the command a
 
 ## 🧪 Quality & Compatibility
 
-- ✅ Windows 10 and Windows 11
-- ✅ Windows PowerShell 5.1+
-- ✅ PowerShell 7+
+- ✅ **Windows 7 SP1** (requires .NET Framework 4.8 **full** + Windows Management Framework 5.1)
+- ✅ **Windows 10** and **Windows 11**
+- ✅ **Windows PowerShell 5.1+**
+- ✅ **PowerShell 7+** (output verified byte-stable against 5.1)
+- ✅ **Zero external dependencies** — no modules, no NuGet/PSGallery, no internet, no admin rights
 - ✅ UTF-8 output for international filenames and documents
+- ✅ Culture-invariant dates and integer sizes — identical JSON schema on every supported host
 - ✅ Literal-path handling for spaces and special characters
 - ✅ Optional hidden-file inclusion
 - ✅ Feature tests for HTML dropdowns, copy actions, icon mapping, and context-menu behavior
+
+> ℹ️ **Note:** PowerShell 7 is not supported on Windows 7 by Microsoft, and the .NET Framework
+> 4 **Client Profile** is not supported because it excludes WPF. See the README System
+> Requirements table for details.
 
 ## 🙏 Thank You
 
